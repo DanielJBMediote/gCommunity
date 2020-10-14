@@ -1,0 +1,78 @@
+version: "2.1"
+
+services:
+  # Serviço de Banco de Dados
+  database:
+    container_name: gcomunit_db
+    image: postgres
+    environment:
+      - POSTGRES_USERNAME=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DATABASE=${DB_DATABASE}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ./postgres_data:/postgres/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  # Serviço da API
+  api:
+    container_name: gcomunity_api
+    # restart: always
+    environment: 
+      WAIT_HOST: database:5432
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/api.dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "${API_PORT}:3333"
+    volumes:
+      - ./backend/.env:/usr/src/api/.env
+      - ./backend:/usr/src/api
+    networks:
+      - backend
+      # - frontend
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+        test: "echo 'Service Ready Up'"
+        interval: 10s
+        timeout: 10s
+        retries: 3
+    command: sh -c "adonis migration:run --seed && adonis serve"
+
+  # # Serviço do Website
+  # frontend:
+  #   # restart: always
+  #   environment: 
+  #     WAIT_HOST: backend:3333
+  #   build:
+  #     context: ./
+  #     dockerfile: ./dockerfiles/app.dockerfile
+  #   ports:
+  #     - "${APP_PORT}:8080"
+  #   volumes:
+  #     - ./app:/usr/src/app
+  #   depends_on:
+  #     api:
+  #       condition: service_healthy
+  #   networks:
+  #     - frontend
+
+networks:
+  backend:
+    driver: bridge
+  # frontend:
+  #   driver: bridge
+volumes:
+  postgres_data:

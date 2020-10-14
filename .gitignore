@@ -1,0 +1,4 @@
+# Environment variables, never commit this file
+.env
+
+/postgres_data/

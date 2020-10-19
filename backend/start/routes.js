@@ -16,20 +16,49 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
+Route.get('/', ({ response }) => { return response.send('Funcioanndo') })
+
 /**
  * Rotas Publicas
  */
 Route.group(() => {
   Route.post('/register', 'UserController.store')
   Route.post('/session', 'SessionController.store')
+
+  Route.post('/file', 'FileController.store')
+  Route.get('/file/:id', 'FileController.show')
 });
+
+/**
+ * Rotas para Moderador
+ */
+Route.group(() => {
+
+}).middleware(['auth']).prefix('/admin')
 
 /**
  * Rotoas para Usuarios
  */
 Route.group(() => {
   Route.post('/password-reset', 'ForgotPasswordController.store')
+  Route.put('/update', 'UserController.update')
+  Route.delete('/delete', 'UserController.destroy')
 
-  // alterar dados
-
+  Route.resource('/post', 'PostController').apiOnly()
+  Route.resource('/comment', 'CommentController').apiOnly()
 }).middleware(['auth']).prefix('/user')
+
+/**
+ * Rotas para Postagens
+ */
+Route.group(() => {
+
+}).middleware().prefix('post')
+
+
+/**
+ * Rotas para Comentários
+ */
+Route.group(() => {
+
+}).middleware().prefix('/comment')

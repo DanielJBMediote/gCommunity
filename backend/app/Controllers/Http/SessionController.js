@@ -10,9 +10,9 @@ class SessionController {
      * @param {Auth} ctx.auth
      */
     async store({ request, response, auth }) {
-        const { username, password } = request.all();
+        const { email, password } = request.all();
 
-        const token = auth.attempt(username, password);
+        const token = auth.attempt(email, password);
 
         return token;
     }

@@ -1,5 +1,5 @@
 #  Lasted version of NodeJS
-FROM node:current-alpine
+FROM node:latest
 
 # CREATE DIRECTORY
 WORKDIR /usr/src/api

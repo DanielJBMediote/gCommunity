@@ -1,69 +1,47 @@
-'use strict'
+
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const CommentService = use('App/Services/CommentService');
+
 /**
  * Resourceful controller for interacting with comments
  */
 class CommentController {
-  /**
-   * Show a list of all comments.
-   * GET comments
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index({ request, response, view }) {
+
+  constructor (commentService = new CommentService()) {
+    this.commentService = commentService;
   }
 
   /**
-   * Render a form to be used for creating a new comment.
-   * GET comments/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
+   * This one will list all comments by post_id
+   * @param {object} context
    */
-  async create({ request, response, view }) {
+  async index (context) {
+    return await this.commentService.listByPostId(context);
   }
 
-  /**
-   * Create/save a new comment.
-   * POST comments
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store({ request, response }) {
+  async store (context) {
+    return await this.commentService.insertComment(context);
   }
 
-  /**
-   * Update comment details.
-   * PUT or PATCH comments/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update({ params, request, response }) {
+  async update (context) {
+    return await this.commentService.updateComment(context);
   }
 
-  /**
-   * Delete a comment with id.
-   * DELETE comments/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy({ params, request, response }) {
+  async destroy (context) {
+    return await this.commentService.deleteComment(context);
+  }
+
+  async like (context) {
+    return await this.commentService.like(context);
+  }
+
+  async deslike (context) {
+    return await this.commentService.deslike(context);
   }
 }
 
-module.exports = CommentController
+module.exports = CommentController;

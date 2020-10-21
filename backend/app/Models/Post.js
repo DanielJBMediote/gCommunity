@@ -1,17 +1,17 @@
-'use strict'
+
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
+const Model = use('Model');
 
 class Post extends Model {
 
-    user() {
-        return this.belongsTo('App/Models/User')
-    }
+  user () {
+    return this.belongsTo('App/Models/User');
+  }
 
-    file() {
-        return this.belongsTo('App/Models/File')
-    }
+  file () {
+    return this.belongsTo('App/Models/File');
+  }
 }
 
-module.exports = Post
+module.exports = Post;

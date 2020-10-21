@@ -1,18 +1,17 @@
-'use strict'
+
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
-const Env = use('Env')
+const Model = use('Model');
+const Env = use('Env');
 
 class File extends Model {
+  static get computed () {
+    return ['url'];
+  }
 
-    static get computed() {
-        return ['url']
-    }
-
-    getUrl({ id }) {
-        return `${Env.get('APP_URL')}/file/${id}`
-    }
+  getUrl ({ id }) {
+    return `${Env.get('APP_URL')}/file/${id}`;
+  }
 }
 
-module.exports = File
+module.exports = File;

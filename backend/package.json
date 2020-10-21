@@ -1,5 +1,5 @@
 {
-  "name": "adonis-fullstack-app",
+  "name": "projeto-adonijs-tcc",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
   "description": "The fullstack application boilerplate for Adonisjs",
@@ -30,7 +30,9 @@
     "pg": "^8.3.3"
   },
   "devDependencies": {
-    "eslint": "^7.11.0"
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
   },
   "autoload": {
     "App": "./app"

@@ -1,50 +1,38 @@
-"use strict";
+
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const File = use('App/Models/File')
-const Helpers = use('Helpers');
+const FileService = use('App/Services/FileService');
 
-/**
- * Resourceful controller for interacting with files
- */
 class FileController {
+  constructor (fileService = new FileService()) {
+    this.fileService = fileService;
+  }
 
-    async show({ response, params }) {
-        const file = await File.findOrFail(params.id)
+  // eslint-disable-next-line no-empty-function
+  async index (context) {
 
-        return response.download(Helpers.tmpPath(`uploads/${file.file}`))
-    }
+  }
 
-    async store({ request, response }) {
-        try {
-            if (!request.file('file'))
-                return response.send('Não tem arquivo')
 
-            const upload = request.file('file', { size: '2mb' });
+  async show (context) {
+    return await this.fileService.showFile(context);
+  }
 
-            const fileName = `${Date.now()}.${upload.subtype}`
+  async store (context) {
+    return await this.fileService.insertFile(context);
+  }
 
-            await upload.move(Helpers.tmpPath('uploads'), {
-                name: fileName
-            })
+  // eslint-disable-next-line no-empty-function
+  async update (context) {
 
-            if (!upload.moved()) {
-                throw upload.error()
-            }
-            const file = await File.create({
-                file: fileName,
-                name: upload.clientName,
-                type: upload.type,
-                subtype: upload.subtype
-            })
-            return file
-        } catch (err) {
-            return response.status(err.status).send({ msg: 'Erro ao dar upload do arquivo' })
-        }
-    }
+  }
+
+  async destroy (context) {
+    return this.fileService.deleteFileFromPath(context);
+  }
 }
 
 module.exports = FileController;

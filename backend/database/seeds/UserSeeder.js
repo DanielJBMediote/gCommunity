@@ -1,4 +1,4 @@
-'use strict'
+
 
 /*
 |--------------------------------------------------------------------------
@@ -10,11 +10,11 @@
 |
 */
 
-const Database = use('Database')
+const Database = use('Database');
 
 class UserSeeder {
-  async run() {
-    await Database.table('users').where('provider', true).delete()
+  async run () {
+    await Database.table('users').where('provider', true).delete();
 
     await Database.table('users').insert([
       {
@@ -22,10 +22,10 @@ class UserSeeder {
         email: 'admin@gcommunity.com',
         password: '$2a$10$C3jy9fh2/yn3ApvyUeWwTeIfqq/lYKDt.WuzD5Ocjpxq4Z8Q1Twna',
         provider: true,
-        active_status: true
-      }
-    ])
+        active_status: true,
+      },
+    ]);
   }
 }
 
-module.exports = UserSeeder
+module.exports = UserSeeder;

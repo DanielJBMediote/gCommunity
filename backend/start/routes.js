@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -14,19 +12,18 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use("Route");
+const Route = use('Route');
 
-Route.get('/', ({ response }) => { return response.send('Funcioanndo') })
+Route.get('/', ({ response }) => response.send('Funcioanndo'));
 
 /**
  * Rotas Publicas
  */
 Route.group(() => {
-  Route.post('/register', 'UserController.store')
-  Route.post('/session', 'SessionController.store')
+  Route.post('/register', 'UserController.store');
+  Route.post('/session', 'SessionController.store');
 
-  Route.post('/file', 'FileController.store')
-  Route.get('/file/:id', 'FileController.show')
+  Route.resource('/file', 'FileController').apiOnly();
 });
 
 /**
@@ -34,31 +31,34 @@ Route.group(() => {
  */
 Route.group(() => {
 
-}).middleware(['auth']).prefix('/admin')
+}).middleware(['auth']).prefix('/admin');
 
 /**
  * Rotoas para Usuarios
  */
 Route.group(() => {
-  Route.post('/password-reset', 'ForgotPasswordController.store')
-  Route.put('/update', 'UserController.update')
-  Route.delete('/delete', 'UserController.destroy')
+  Route.post('/password-reset', 'ForgotPasswordController.store');
+  Route.put('/update', 'UserController.update');
+  Route.delete('/delete', 'UserController.destroy');
 
-  Route.resource('/post', 'PostController').apiOnly()
-  Route.resource('/comment', 'CommentController').apiOnly()
-}).middleware(['auth']).prefix('/user')
+}).middleware(['auth']).prefix('/user');
 
 /**
  * Rotas para Postagens
  */
 Route.group(() => {
+  Route.resource('', 'PostController').apiOnly();
 
-}).middleware().prefix('post')
-
+  Route.put('/:postID/like', 'PostController.like');
+  Route.put('/:postID/dislike', 'PostController.dislike');
+}).middleware(['auth']).prefix('/post');
 
 /**
  * Rotas para Comentários
  */
 Route.group(() => {
+  Route.resource('', 'CommentController').apiOnly();
 
-}).middleware().prefix('/comment')
+  Route.put('/:commentID/like', 'CommentController.like');
+  Route.put('/:commentID/deslike', 'CommentController.deslike');
+}).middleware(['auth']).prefix('/comment/:postID');

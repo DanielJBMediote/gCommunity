@@ -49,7 +49,7 @@ services:
         interval: 10s
         timeout: 10s
         retries: 3
-    command: sh -c "adonis migration:run --seed && adonis serve"
+    command: sh -c "adonis migration:run --seed && adonis serve --dev"
 
   # # Serviço do Website
   # frontend:

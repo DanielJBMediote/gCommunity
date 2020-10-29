@@ -32,12 +32,12 @@ services:
       context: ./
       dockerfile: ./dockerfiles/api.dockerfile
     env_file:
-      - ./backend/.env
+      - ./api/.env
     ports:
       - "${API_PORT}:3333"
     volumes:
-      - ./backend/.env:/usr/src/api/.env
-      - ./backend:/usr/src/api
+      - ./api/.env:/usr/src/api/.env
+      - ./api:/usr/src/api
     networks:
       - backend
       # - frontend
@@ -51,18 +51,19 @@ services:
         retries: 3
     command: sh -c "adonis migration:run --seed && adonis serve --dev"
 
-  # # Serviço do Website
-  # frontend:
-  #   # restart: always
+  #Serviço do Website
+  # web:
+  #   restart: always
+  #   command: [ "npm", "start"]
   #   environment: 
-  #     WAIT_HOST: backend:3333
+  #     WAIT_HOST: api:3333
   #   build:
   #     context: ./
-  #     dockerfile: ./dockerfiles/app.dockerfile
+  #     dockerfile: ./dockerfiles/web.dockerfile
   #   ports:
-  #     - "${APP_PORT}:8080"
+  #     - "${WEB_PORT}:3000"
   #   volumes:
-  #     - ./app:/usr/src/app
+  #     - ./web:/usr/src/web
   #   depends_on:
   #     api:
   #       condition: service_healthy

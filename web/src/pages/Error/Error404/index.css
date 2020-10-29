@@ -1,0 +1,19 @@
+div.err-modal {
+  display: grid;
+  justify-items: center;
+  font-family: Roboto;
+  color: #ff7f51;
+}
+
+div.err-modal h1 {
+  font-size: 72pt;
+}
+
+div.err-modal h3{
+  font-size: 24pt;
+}
+
+div.err-modal a {
+  color: #ff7f51;
+  text-decoration: none;
+}

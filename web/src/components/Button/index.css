@@ -1,0 +1,52 @@
+button {
+  font-family: Roboto;
+  font-size: 18px;
+	padding: 1rem 2rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  color: #ebebeb;
+  min-width: 80px;
+  border-radius: 12px;
+  background-color: transparent;
+}
+
+button:hover {
+  background-color: #8855DD;
+  background-size: 100% 100%;
+  animation: spring 300ms ease-out;
+  text-shadow: 0 -1px 0 #ef816c;
+	font-weight: bold;
+}
+
+button:active {
+  transform: translateY(4px);
+}
+
+@keyframes spring {
+  15% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1.2, 1.1);
+  }
+  40% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(0.95, 0.95);
+  }
+  75% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1.05, 1);
+  }
+  100% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1, 1);
+  }
+}
+
+.shameless-plug{
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  padding: 8px 20px;
+  color: #ccc;
+  text-decoration: none;
+}

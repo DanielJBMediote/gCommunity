@@ -1,0 +1,70 @@
+form.form-modal {
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: auto;
+  justify-content: center;
+  font-family: Roboto;
+}
+
+.form-modal h2 {
+  text-align: center;
+}
+
+.form-modal a {
+  text-align: center;
+  margin-top: 2em;
+  text-decoration: none;
+  color: #8855DD;
+}
+
+.form-modal a:hover{
+  color: #fff;
+}
+
+.input-username,
+.input-password,
+.input-email {
+  display: grid;
+  margin: 10px;
+}
+
+.input-username label,
+.input-password label,
+.input-email label {
+  font-size: 11pt;
+  text-transform: capitalize;
+}
+
+.input-username input,
+.input-email input,
+.input-password input {
+  width: 200px;
+  padding-left: 65px;
+}
+
+.icon {
+  position: absolute;
+  margin-top: 1.7em;
+  border: solid 4px #8855DD;
+  padding: 10px 12px;
+  font-size: 22px;
+  background-color: #1D1D2B;
+}
+
+.backBtn {
+  padding: 0em;
+  margin: 15px;
+}
+
+.backBtn a {
+  color: #fff;
+}
+
+.backBtn button{
+  padding: 3px 0 0 0;
+  width: 50px;
+  height: 30px;
+  min-width: 50px;
+  min-height: 40px;
+  font-size: 2em;
+}

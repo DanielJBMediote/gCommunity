@@ -12,7 +12,7 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - ./postgres_data:/postgres/data
+      # - ./postgres_data:/postgres/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
@@ -23,24 +23,24 @@ services:
       retries: 5
 
   # Serviço da API
-  api:
+  server:
     container_name: gcomunity_api
     # restart: always
     environment: 
       WAIT_HOST: database:5432
     build:
       context: ./
-      dockerfile: ./dockerfiles/api.dockerfile
+      dockerfile: ./dockerfiles/server.dockerfile
     env_file:
-      - ./api/.env
+      - ./server/.env
     ports:
-      - "${API_PORT}:3333"
+      - ${SERVER_PORT}:3333
     volumes:
-      - ./api/.env:/usr/src/api/.env
-      - ./api:/usr/src/api
+      - ./server/.env:/server/.env
+      - ./server:/server
     networks:
       - backend
-      # - frontend
+      - frontend
     depends_on:
       database:
         condition: service_healthy
@@ -51,29 +51,30 @@ services:
         retries: 3
     command: sh -c "adonis migration:run --seed && adonis serve --dev"
 
-  #Serviço do Website
-  # web:
-  #   restart: always
-  #   command: [ "npm", "start"]
-  #   environment: 
-  #     WAIT_HOST: api:3333
-  #   build:
-  #     context: ./
-  #     dockerfile: ./dockerfiles/web.dockerfile
-  #   ports:
-  #     - "${WEB_PORT}:3000"
-  #   volumes:
-  #     - ./web:/usr/src/web
-  #   depends_on:
-  #     api:
-  #       condition: service_healthy
-  #   networks:
-  #     - frontend
+  # Serviço do Website
+  web:
+    tty: true
+    # restart: always
+    command: [ "npm", "start"]
+    # environment: 
+    #   WAIT_HOST: server:3333
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/web.dockerfile
+    ports:
+      - "${WEB_PORT}:3000"
+    volumes:
+      - ./web:/web
+    # depends_on:
+    #   server:
+    #     condition: service_healthy
+    networks:
+      - frontend
 
 networks:
   backend:
     driver: bridge
-  # frontend:
-  #   driver: bridge
+  frontend:
+    driver: bridge
 volumes:
   postgres_data:

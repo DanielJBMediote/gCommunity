@@ -8,7 +8,9 @@ interface InputProps {
   id?: string,
   placeholder?: string,
   value?: string,
+  defaultValue?: string
   handdleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handdleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
 const Input: React.FC<InputProps> = (props) => {
@@ -20,6 +22,8 @@ const Input: React.FC<InputProps> = (props) => {
     placeholder={props.placeholder}
     value={props.value}
     onChange={props.handdleChange}
+    onBlur={props.handdleBlur}
+    defaultValue={props.defaultValue}
   />
 }
 

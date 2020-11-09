@@ -16,6 +16,7 @@ ul{
 li{
   padding: 0.5rem 1rem;
   border-radius: 12px;
+  border: solid 1px #8855DD;
 }
 
 li a {

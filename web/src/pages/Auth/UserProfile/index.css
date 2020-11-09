@@ -1,0 +1,41 @@
+.profile-modal {
+  display: flex;
+  justify-content: center;
+  font-family: Roboto;
+  padding: 2em;
+}
+
+.profile-modal .section {
+  display: grid;
+  width: 200px;
+}
+
+.profile-modal .upload-img {
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border: 3px solid #8855dd;
+  margin: 1em;
+  margin-left: 90px;
+}
+
+.profile-modal .input-file-upload #file-input {
+  opacity: 0;
+  z-index: 1;
+  max-width: 50px !important;
+  height: 100px;
+  margin-top: -150px;
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile-modal .section input:nth-child(3) {
+  padding-left: 60px;
+}
+
+.profile-modal button {
+  margin-left: 60px;
+}

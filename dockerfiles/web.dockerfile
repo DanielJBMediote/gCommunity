@@ -1,17 +1,24 @@
 #  Lasted version of NodeJS
-FROM node:current-alpine
+FROM node:latest
+
+RUN apt-get update
 
 #Create api directory
-WORKDIR /usr/src/web
-
-
-COPY ./web/ .usr/src/web/
-COPY ./web/package*.json ./usr/src/web/
+WORKDIR /web
 
 ENV PATH ./web/node_modules/.bin:$PATH
 
-RUN npm install --silent
-RUN npm install react-scripts@4.0.0 -g --silent
+COPY ./web/package.json ./
+COPY ./web/package-lock.json ./
+
+
+RUN npm install react-scripts@3.4.0 --silent
+
+RUN npm install --slinet
+
+COPY ./web/ ./
+
+RUN npx browserslist --update-db
 
 EXPOSE 3000
 

@@ -20,21 +20,11 @@ class PostService {
   async listAll({ response }) {
     const posts = await this.postRepository.listAll();
 
-    posts.map(post => {
-
-      if (post.user.avatar_id) {
-        post.user.avatar_url = `http://localhost:3333/file/${post.user.avatar_id}`;
-      }
-      delete post.user.avatar_id;
-      if (post.file_id) {
-        post.file_url = `http://localhost:3333/file/${post.file_id}`;
-      } else {
-        post.file_url = 'https://icoconvert.com/images/noimage2.png';
-      }
-      delete post.file_id;
-    });
-
     return response.send(posts);
+  }
+
+  async getByID({ params, response }) {
+    return await this.postRepository.getByID(params.id);
   }
 
   async listByTags({ request, response }) {
@@ -52,7 +42,7 @@ class PostService {
         }
       });
 
-      return response.send(postsTags);
+      return response.send(posts);
     } catch (err) {
       return response
         .status(err.status)
@@ -65,7 +55,7 @@ class PostService {
 
   async listByUserID({ response, auth }) {
     try {
-      const posts = await this.postRepository.getByUserId(auth.user.id);
+      const posts = await this.postRepository.getByUserID(auth.user.id);
 
       posts.map(post => {
 
@@ -86,6 +76,7 @@ class PostService {
 
   async createPost({ request, response, auth }) {
     const data = request.all();
+    // return response.send(data);
     try {
       data.user_id = auth.user.id;
 
@@ -108,7 +99,7 @@ class PostService {
   }) {
     const data = request.all();
     try {
-      const post = await this.postRepository.getById(params.id);
+      const post = await this.postRepository.getByID(params.id);
 
       if (!post || post.user_id != auth.user.id) {
         return response
@@ -141,7 +132,7 @@ class PostService {
   }
 
   async updatePostComment({ params }) {
-    const post = await this.postRepository.getById(params.postID);
+    const post = await this.postRepository.getByID(params.postID);
     post.num_comments += 1;
     await this.postRepository.update(post);
   }
@@ -150,7 +141,7 @@ class PostService {
    * Deleta uma Postagem baseado no ID da Postagem
    */
   async deletePost({ response, params, auth }) {
-    const post = await this.postRepository.getById(params.id);
+    const post = await this.postRepository.getByID(params.id);
     try {
       // Verificar se o Usuário Logado é autor da Postagem
       if (post.user_id != auth.user.id) {
@@ -176,14 +167,14 @@ class PostService {
   }
 
   async like({ response, params }) {
-    const post = await this.postRepository.getById(params.postID);
+    const post = await this.postRepository.getByID(params.postID);
     post.num_likes += 1;
     await this.postRepository.update(post);
     return response.send(post);
   }
 
   async dislike({ response, params }) {
-    const post = await this.postRepository.getById(params.postID);
+    const post = await this.postRepository.getByID(params.postID);
     post.num_deslikes += 1;
     await this.postRepository.update(post);
     return response.send(post);

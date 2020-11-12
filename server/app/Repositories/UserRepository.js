@@ -1,5 +1,5 @@
 const UserModel = use('App/Models/User');
-const Database = use('Database');
+// const Database = use('Database');
 
 class UserRepository {
 
@@ -8,7 +8,7 @@ class UserRepository {
   }
 
   async getById(id) {
-    return (await UserModel.findOrFail(id));
+    return await UserModel.findOrFail(id);
   }
 
   async insert(data) {
@@ -19,8 +19,8 @@ class UserRepository {
     return (await UserModel.create(data));
   }
 
-  async update(data, userID) {
-    return await Database.table('users').where('id', userID).update(data);
+  async update(user) {
+    return (await user.save());
   }
 
   async delete(data) {

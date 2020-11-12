@@ -1,0 +1,43 @@
+$purple-color: #8855DD;
+$light-color:  #ebebeb;
+$dark-color: #27262c;
+$font-family: Roboto;
+
+nav {
+	width: 100%;
+	justify-content: center;
+	max-width: 1000px;
+	margin: 10px auto;
+	padding: 0.15em;
+}
+ul {
+	text-align: center;
+	display: flex;
+	justify-content: space-evenly;
+	list-style: none;
+}
+li {
+	border-radius: 12px;
+	border: solid 1px $purple-color;
+	cursor: pointer;
+	a {
+		padding: 0.5rem 1rem;
+		text-decoration: none;
+		font-family: $font-family;
+		text-transform: uppercase;
+		color: $light-color;
+		min-width: 80px;
+		margin: auto;
+		display: block;
+	}
+	&:hover {
+		background-color: $purple-color;
+		background-size: 100% 100%;
+		color: $dark-color;
+		animation: spring 300ms ease-out;
+		font-weight: bold;
+	}
+	&:active {
+		transform: translateY(4px);
+	}
+}

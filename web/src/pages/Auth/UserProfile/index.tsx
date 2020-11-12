@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import React from 'react'
 import { AiFillCalendar } from 'react-icons/ai';
 import { FaUserAlt } from 'react-icons/fa';
@@ -5,58 +6,61 @@ import { MdEmail } from 'react-icons/md';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Navbar from '../../../components/Navbar';
-import api from '../../../services/api';
+import httpClient from '../../../services/api';
 
-import './index.css'
+import './index.scss'
 
 const UserProfile = () => {
 
-  let [previewURL, setPreviewUrl] = React.useState('http://placehold.it/70');
-  let [user, setuser] = React.useState({
-    username: '', email: '',
-    fullname: '', age: '',
-    file: ''
-  });
-
-  function formatString(e: any) {
-
-  }
+  const [previewURL, setPreviewUrl] = React.useState('http://placehold.it/70');
+  const [data, setData] = React.useState({});
+  const [user, setUser] = React.useState({});
 
   React.useEffect(() => {
-    api.get('/user/data', {
+    httpClient.get('/user/data', {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('@app/token')}`
       }
-    }).then(success => {
-      user = {
-        username: success.data.username,
-        fullname: success.data.fullname,
-        email: success.data.email,
-        age: success.data.age,
-        file: success.data.file
-      };
-      console.log(user);
-
-    }, fail => {
-      console.log(fail);
+    }).then((response: AxiosResponse) => {
+      setUser(response.data[0]);
+    }).catch((error: AxiosError) => {
+      console.log(error.response);
     })
-  }, [])
+  }, []);
 
-  function readURL(e: any) {
+  React.useEffect(() => {
+    // httpClient.get(`/file/`)
+    console.log(user);
+  }, [user])
+
+  const onInputChange = React.useCallback(e => {
+    setData(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }));
+  }, []);
+
+  const updateProfile = React.useCallback(() => {
+    console.log(user);
+  }, [user]);
+
+  const readURL = React.useCallback(e => {
     if (e.target.files && e.target.files[0]) {
       setPreviewUrl(URL.createObjectURL(e.target.files[0]))
+      setUser(prevState => ({
+        ...prevState,
+        [e.target.name]: e.target.files[0]
+      }))
     }
-  }
+  }, []);
 
   return (
-
     <><Navbar />
       <div className="profile-modal">
         <div>
-
           <div className="section">
-            <img id="file_upload"
-              src={(!user.file) ? previewURL : user.file} alt="your image" className="upload-img" />
+            <img
+              src={previewURL} alt="userPhoto" className="upload-img" />
             <div className="input-file-upload">
               <input type='file' id="file-input" onChange={readURL} />
             </div>
@@ -64,24 +68,24 @@ const UserProfile = () => {
           <div className="section">
             <label htmlFor="">username</label>
             <FaUserAlt className="icon" />
-            <Input type="text" name="username" defaultValue={user.username} />
+            <Input type="text" name="username" handdleBlur={onInputChange} />
           </div>
           <div className="section">
             <label htmlFor="">full name</label>
             <FaUserAlt className="icon" />
-            <Input type="text" name="fullname" />
+            <Input type="text" name="fullname" handdleBlur={onInputChange} />
           </div>
           <div className="section">
             <label htmlFor="">email</label>
             <MdEmail className="icon" />
-            <Input type="text" name="email" />
+            <Input type="text" name="email" handdleBlur={onInputChange} />
           </div>
           <div className="section">
             <label htmlFor="">birth date</label>
             <AiFillCalendar className="icon" />
-            <Input type="text" name="age" handdleChange={formatString} />
+            <Input type="date" name="age" handdleBlur={onInputChange} />
           </div>
-          <Button label="Update Profile" />
+          <Button handdleClick={updateProfile} label="Update Profile" />
         </div>
 
       </div></>

@@ -18,8 +18,9 @@ class CommentService {
   async deleteComment({ response, params, auth }) {
     try {
       const comment = await this.commentRepository.getById(params.id);
-      if (!auth.user.id == comment.user_id)
+      if (!auth.user.id == comment.user_id) {
         return response.status(401).send({ msg: 'Você não pode deletar este comentário' });
+      }
       await this.commentRepository.delete(comment);
       return response.status(200).send({ msg: 'Comentário deletado' });
     } catch (error) {
@@ -27,12 +28,15 @@ class CommentService {
     }
   }
 
-  async updateComment({ request, response, params, auth }) {
+  async updateComment({
+    request, response, params, auth,
+  }) {
     const data = request.all();
     try {
       const comment = await this.commentRepository.getById(params.id);
-      if (comment.user_id != auth.user.id)
+      if (comment.user_id != auth.user.id) {
         return response.status(401).send({ msg: 'Você não pode alterar este comentário' });
+      }
       comment.description = data.description;
       await this.commentRepository.update(comment);
       return response.status(200).send({ msg: 'Comentário foi alterado' });
@@ -41,9 +45,11 @@ class CommentService {
     }
   }
 
-  async insertComment({ request, response, params, auth }) {
+  async insertComment({
+    request, response, params, auth,
+  }) {
     const data = request.all();
-    data.post_id = params.postID;
+    data.post_id = Number(params.postID);
     data.user_id = auth.user.id;
 
     await this.postService.updatePostComment({ params });

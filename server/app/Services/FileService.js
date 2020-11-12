@@ -21,9 +21,11 @@ class FileService {
 
   async insertFile({ request, response }) {
     try {
-      if (!request.file('file')) { return response.send('Não tem arquivo(s)'); }
+      if (!request.file('file')) {
+        return response.send('Não tem arquivo(s)');
+      }
 
-      const upload = request.file('file', { size: '10mb' });
+      const upload = request.file('file', { size: '5mb' });
       const fileName = `${Date.now()}.${upload.subtype}`;
 
       await upload.move(Helpers.tmpPath('uploads'), {
@@ -60,9 +62,7 @@ class FileService {
 
       fs.unlink(path.resolve(`${filePath}/${file.file}`), (err) => {
         if (err) throw err;
-        // response.send({ msg: 'Deu pau na hora de deletar o arquivo' });
       });
-      // return response.status(200).send({ msg: 'Arquivo Deletado' });
     } catch (err) {
       // return response.status(err.status).send({ msg: 'Erro ao deletar o arquivo' });
     }
@@ -76,19 +76,18 @@ class FileService {
    */
   async updateFileByID({ request, fileID }) {
 
+    if (!(request.file('file'))) {
+      if (fileID) {
+        await this.deleteFileFromPath({ params: { id: fileID } });
+      }
     // Se houer ariquivo na minha requisição e troco pelo meu atual
-    if (request.file('file')) {
+    } else {
       // Se no meu banco de File já ter um arquivo, eu vou deletar e depois inserir um novo
       if (fileID) {
         await this.deleteFileFromPath({ params: { id: fileID } });
       }
       return await this.insertFile({ request });
-    } if (!(request.file('file'))) {
-      if (fileID) {
-        await this.deleteFileFromPath({ params: { id: fileID } });
-      }
     }
-
   }
 }
 

@@ -1,0 +1,29 @@
+$purple: #8855dd;
+$light-color: #ebebeb;
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"] {
+  margin: 10px 0px;
+  padding: 12px 12px;
+  font-family: Ubuntu;
+  font-weight: 100;
+  border: none;
+  min-width: 250px;
+  background-color: $purple;
+  color: $light-color;
+}
+
+input[type="date"] {
+  margin: 7px 0px;
+}
+
+input {
+  &::placeholder {
+    color: $light-color;
+  }
+  &:focus {
+    outline: none;
+  }
+}

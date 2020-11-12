@@ -1,10 +1,8 @@
-
-
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
 class UserSchema extends Schema {
-  up () {
+  up() {
     this.create('users', (table) => {
       table.increments();
       table.string('username', 80).notNullable();
@@ -16,13 +14,13 @@ class UserSchema extends Schema {
       table.string('token');
       table.timestamp('token_created_at');
 
-      table.boolean('provider').notNullable();
-      table.boolean('active_status').notNullable();
+      table.boolean('provider').notNullable().defaultTo(false);
+      table.boolean('active_status').notNullable().defaultTo(true);
       table.timestamps();
     });
   }
 
-  down () {
+  down() {
     this.drop('users');
   }
 }

@@ -22,9 +22,10 @@ Route.get('/', ({ response }) => response.send('Funcionando'));
 Route.group(() => {
   Route.post('/register', 'UserController.store');
   Route.post('/session', 'SessionController.store');
-
-  Route.get('/posts', 'PostController.index');
-  Route.post('/posts', 'PostController.listByTags');
+  Route.get('/post/:id', 'PostController.show');
+  Route.get('/list-all-games', 'GameController.index');
+  Route.get('/list-all-posts', 'PostController.index');
+  Route.get('/list-posts-by-tags', 'PostController.getPostsByTags');
 
   Route.resource('/file', 'FileController').apiOnly();
 });
@@ -40,11 +41,12 @@ Route.group(() => {})
  * Rotoas para Usuarios
  */
 Route.group(() => {
-  Route.post('/password-reset', 'ForgotPasswordController.store');
-  Route.get('data', 'UserController.getUserByID');
+  Route.resource('', 'UserController').apiOnly();
+  // Route.get('/', 'UserController.getUserByID');
+  // Route.post('/password-reset', 'ForgotPasswordController.store');
   // Route.resource('', 'UserController').apiOnly();
-  Route.put('/update', 'UserController.update');
-  Route.delete('/delete', 'UserController.destroy');
+  // Route.put('/update', 'UserController.update');
+  // Route.delete('/delete', 'UserController.destroy');
 })
   .middleware(['auth'])
   .prefix('/user');
@@ -53,11 +55,11 @@ Route.group(() => {
  * Rotas para Postagens
  */
 Route.group(() => {
-  Route.get('user-posts', 'PostController.listByUserID');
-
   Route.resource('', 'PostController').apiOnly();
-  Route.put('/:postID/like', 'PostController.like');
-  Route.put('/:postID/dislike', 'PostController.dislike');
+
+  Route.get('/list-posts-by-user', 'PostController.getByUserID');
+  Route.put('/:id/like', 'PostController.like');
+  Route.put('/:id/dislike', 'PostController.dislike');
 
 })
   .middleware(['auth'])
@@ -69,8 +71,8 @@ Route.group(() => {
 Route.group(() => {
   Route.resource('', 'CommentController').apiOnly();
 
-  Route.put('/:commentID/like', 'CommentController.like');
-  Route.put('/:commentID/deslike', 'CommentController.deslike');
+  Route.put('/:id/like', 'CommentController.like');
+  Route.put('/:id/deslike', 'CommentController.deslike');
 })
   .middleware(['auth'])
   .prefix('/comment/:postID');

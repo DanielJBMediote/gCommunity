@@ -1,5 +1,3 @@
-
-
 /*
 |--------------------------------------------------------------------------
 | UserSeeder
@@ -13,8 +11,8 @@
 const Database = use('Database');
 
 class UserSeeder {
-  async run () {
-    await Database.table('users').where('provider', true).delete();
+  async run() {
+    await Database.table('users').delete();
 
     await Database.table('users').insert([
       {
@@ -22,7 +20,16 @@ class UserSeeder {
         email: 'admin@gcommunity.com',
         password: '$2a$10$C3jy9fh2/yn3ApvyUeWwTeIfqq/lYKDt.WuzD5Ocjpxq4Z8Q1Twna',
         provider: true,
-        active_status: true,
+      },
+      {
+        username: 'thanos12',
+        email: 'thanos@email.com',
+        password: '$2a$10$C3jy9fh2/yn3ApvyUeWwTeIfqq/lYKDt.WuzD5Ocjpxq4Z8Q1Twna',
+      },
+      {
+        username: 'steve',
+        email: 'steve@email.com',
+        password: '$2a$10$C3jy9fh2/yn3ApvyUeWwTeIfqq/lYKDt.WuzD5Ocjpxq4Z8Q1Twna',
       },
     ]);
   }

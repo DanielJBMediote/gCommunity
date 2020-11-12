@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './index.css'
+import './index.scss'
 
 interface InputProps {
   type: string,
@@ -8,7 +8,8 @@ interface InputProps {
   id?: string,
   placeholder?: string,
   value?: string,
-  defaultValue?: string
+  inputRef?: React.MutableRefObject<HTMLInputElement>
+  defaultValue?: string | undefined
   handdleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   handdleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
@@ -24,6 +25,7 @@ const Input: React.FC<InputProps> = (props) => {
     onChange={props.handdleChange}
     onBlur={props.handdleBlur}
     defaultValue={props.defaultValue}
+    ref={props.inputRef}
   />
 }
 

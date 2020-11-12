@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './index.css';
+import './index.scss';
 
 interface ButtonProps {
   label?: string
@@ -11,6 +11,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   return (
     <>
       <button
+        className="mainBtn"
         type={props.type}
         onClick={props.handdleClick}
       >

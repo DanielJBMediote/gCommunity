@@ -1,23 +1,24 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import React from 'react';
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { BiCommentDetail } from 'react-icons/bi';
 import Navbar from '../../../components/Navbar';
+import httpClient from '../../../services/api';
+import './index.css';
 
-import api from '../../../services/api'
-import './index.css'
 
 const UserPost = () => {
   const [userPosts, setUserPost] = React.useState([]);
 
   React.useEffect(() => {
-    api.get('/post/user-posts', {
+    httpClient.get('/post/user-posts', {
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('@app/token')}`
       }
-    }).then(res => {
-      setUserPost(res.data);
-    }, fail => {
-      // console.log(fail);
+    }).then((response: AxiosResponse) => {
+      setUserPost(response.data);
+    }).catch((error: AxiosError) => {
+      console.log(error.response);
     })
   }, [])
 

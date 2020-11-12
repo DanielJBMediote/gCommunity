@@ -1,67 +1,99 @@
-import React from 'react';
+import React from "react";
+import { AxiosResponse, AxiosError } from "axios";
+import "./index.scss";
 
-import './index.css';
+import Button from "../../../components/Button";
+import Input from "../../../components/Input";
+import logo from "../../../assets/joystick2.png";
+import httpClient from "../../../services/api";
+import { FaUserAlt } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
 
-import Button from '../../../components/Button';
-import Input from '../../../components/Input';
-import logo from '../../../assets/joystick2.png'
-import api from '../../../services/api'
-import { FaUserAlt } from 'react-icons/fa';
-import { RiLockPasswordFill } from 'react-icons/ri';
+const Login = () => {
+  const [data, setData] = React.useState({ email: "", password: "" });
+  const [span, setSpan] = React.useState(<></>);
 
-export default class Login extends React.Component {
-  span: string;
+  const onInputChange = React.useCallback((e) => {
+    setData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }, []);
 
-  constructor(props: any) {
-    super(props);
-    this.state = {}
-    this.span = ''
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onSubmitForm = this.onSubmitForm.bind(this);
+  function handdleLogoClick() {
+    window.location.href = "/";
   }
 
-  onInputChange(event: any) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
+  const handdleInputCheckbox = React.useCallback(
+    (e) => {
+      if (e.target.checked)
+        localStorage.setItem("@app/saved/email", data.email);
+      else localStorage.removeItem("@app/saved/email");
+    },
+    [data]
+  );
 
-  handdleLogoClick(event: any) { window.location.href = "/"; }
+  const onSubmitForm = React.useCallback(() => {
+    httpClient
+      .post("/session", data)
+      .then((response: AxiosResponse) => {
+        localStorage.setItem("@app/token", response.data.token);
+        window.location.href = "/";
+      })
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 401) {
+          setSpan(
+            <span className="warning">Email e Senha não se correspondem</span>
+          );
+        }
+      });
+  }, [data]);
 
-  onSubmitForm() {
-    console.log(this.state);
+  return (
+    <>
+      <div className="login-content">
+        <form className="login-modal" id="form-login">
+          <img src={logo} alt="" onClick={handdleLogoClick} />
+          <h1>GCommunity</h1>
+          <div className="input-username">
+            <label htmlFor="email">email</label>
+            <FaUserAlt className="icon" />
+            <Input
+              name="email"
+              type="text"
+              handdleChange={onInputChange}
+              defaultValue={
+                localStorage.getItem("@app/saved/email") || undefined
+              }
+            />
+          </div>
+          <div className="input-password">
+            <label htmlFor="password">password</label>
+            <RiLockPasswordFill className="icon" />
+            <Input
+              name="password"
+              type="password"
+              handdleChange={onInputChange}
+            />
+          </div>
+          {span}
+          <div className="input-chk">
+            <input
+              type="checkbox"
+              defaultChecked={
+                localStorage.getItem("@app/saved/email") ? true : false
+              }
+              name="remember"
+              onChange={handdleInputCheckbox}
+            />
+            <span className="remmember">remember email</span>
+          </div>
+          <Button handdleClick={onSubmitForm} type="button" label="Login" />
+          <a href="/cadastrar">Do not have an Account? Sign Up Now!</a>
+        </form>
+      </div>
+    </>
+  );
+};
 
-    api.post('/session', this.state).then(res => {
-      localStorage.setItem('@app/token', res.data.token);
-      window.location.href = '/';
-    }, fail => {
-      this.span = 'Email e Senha não se correspondem'
-    })
-  }
-
-  render() {
-    return (
-      <>
-        <div className="login-content">
-          <form className="login-modal">
-            <img src={logo} alt="" onClick={this.handdleLogoClick} />
-            <h1>GCommunity</h1>
-            <div className="input-username">
-              <label htmlFor="email">email</label>
-              <FaUserAlt className="icon" />
-              <Input name="email" type="text" handdleChange={this.onInputChange} />
-            </div>
-            <div className="input-password">
-              <label htmlFor="password">password</label>
-              <RiLockPasswordFill className="icon" />
-              <Input name="password" type="password" handdleChange={this.onInputChange} />
-            </div>
-            <span>{this.span}</span>
-            <Button handdleClick={this.onSubmitForm} type="button" label="Login" />
-            <a href="/cadastrar">Do not have an Account? Sign Up Now!</a>
-          </form>
-        </div>
-      </>
-    );
-  }
-}
+export default Login;

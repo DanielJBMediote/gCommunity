@@ -59,18 +59,16 @@ class UserService {
         { request, response, fileID: user.avatar_id },
       );
       if (file) {
-        // user.avatar_id = file.id;
-        data.avatar_id = file.id;
+        user.avatar_id = file.id;
+        // data.avatar_id = file.id;
       }
       user.fullname = data.fullname;
       user.password = data.password;
       user.age = data.age;
       if (user.email == data.email) {
-        delete data.email;
+        delete user.email;
       }
-      // delete user.avatar_id;
-      // return response.send(data);
-      await this.userRepository.update(data, user.id);
+      await this.userRepository.update(user);
       return response
         .status(200)
         .send(user);

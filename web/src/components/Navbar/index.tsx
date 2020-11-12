@@ -1,7 +1,7 @@
 import React from 'react'
 // import api from '../../services/api';
 
-import './index.css'
+import './index.scss'
 
 interface NavbarProps {
 
@@ -9,10 +9,10 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = (props) => {
 
-  function handdleLogout() {
+  const handdleLogout = React.useCallback(() => {
     localStorage.removeItem('@app/token');
     localStorage.removeItem('@app/username');
-  }
+  }, []);
 
   return (
     <nav>

@@ -1,72 +1,74 @@
-import React from 'react';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
+import React from "react";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 
-import { FaUserAlt } from 'react-icons/fa';
-import { IoMdArrowRoundBack } from 'react-icons/io';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { MdEmail } from 'react-icons/md'
+import { FaUserAlt } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
 // import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-import './index.css';
+import "./index.scss";
 
-import api from '../../services/api';
+import httpClient from "../../services/api";
+import { AxiosError } from "axios";
 
+const Cadastro = () => {
+  const [newUser, setNewUser] = React.useState({});
 
-export default class Cadastro extends React.Component {
+  const onInputChange = React.useCallback((e) => {
+    setNewUser((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }, []);
 
-  constructor(props: any) {
-    super(props)
-    this.state = {}
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onSubmitForm = this.onSubmitForm.bind(this);
-  }
+  const onSubmitForm = React.useCallback(() => {
+    httpClient
+      .post("/register", newUser)
+      .then(() => {
+        window.location.href = "/login";
+      })
+      .catch((error: AxiosError) => {
+        console.log(error.response);
+      });
+  }, [newUser]);
 
-  onInputChange(event: any) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  onSubmitForm() {
-    api.post('/register', this.state).then(res => {
-
-      window.location.href = "/login";
-    }, fail => {
-      console.log(fail);
-    })
-  }
-
-  render() {
-    return (
-      <>
-        <div className="backBtn">
-          <a href="/">
-            <button>
-              <IoMdArrowRoundBack />
-            </button>
-          </a>
+  return (
+    <>
+      <div className="backBtn">
+        <a href="/">
+          <button className="mainBtn">
+            <IoMdArrowRoundBack />
+          </button>
+        </a>
+      </div>
+      <form className="form-modal">
+        <h2>New Account</h2>
+        <div className="input-username">
+          <label htmlFor="">username</label>
+          <FaUserAlt className="icon" />
+          <Input type="text" name="username" handdleChange={onInputChange} />
         </div>
-        <form className="form-modal">
-          <h2>New Account</h2>
-          <div className="input-username">
-            <label htmlFor="">username</label>
-            <FaUserAlt className="icon" />
-            <Input type="text" name="username" handdleChange={this.onInputChange} />
-          </div>
-          <div className="input-email">
-            <label htmlFor="">email</label>
-            <MdEmail className="icon" />
-            <Input type="email" name="email" handdleChange={this.onInputChange} />
-          </div>
-          <div className="input-password">
-            <label htmlFor="">password</label>
-            <RiLockPasswordFill className="icon" />
-            <Input type="password" name="password" handdleChange={this.onInputChange} />
-          </div>
-          <Button type="button" handdleClick={this.onSubmitForm} label="Sign Up" />
-          <a href="/login">Already have an Account? Sign In now!</a>
-        </form></>
-    );
-  }
-}
+        <div className="input-email">
+          <label htmlFor="">email</label>
+          <MdEmail className="icon" />
+          <Input type="email" name="email" handdleChange={onInputChange} />
+        </div>
+        <div className="input-password">
+          <label htmlFor="">password</label>
+          <RiLockPasswordFill className="icon" />
+          <Input
+            type="password"
+            name="password"
+            handdleChange={onInputChange}
+          />
+        </div>
+        <Button type="button" handdleClick={onSubmitForm} label="Sign Up" />
+        <a href="/login">Already have an Account? Sign In now!</a>
+      </form>
+    </>
+  );
+};
+
+export default Cadastro;

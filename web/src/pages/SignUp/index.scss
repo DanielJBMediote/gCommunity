@@ -1,0 +1,70 @@
+$purple-color: #8855DD;
+$dark-color: #1D1D2B;
+$light-color: #ebebeb;
+$font: Roboto;
+
+
+form {
+	&.form-modal {
+		display: grid;
+		grid-template-columns: 1;
+		grid-template-rows: auto;
+		justify-content: center;
+		font-family: $font;
+	}
+}
+.form-modal {
+	h2 {
+		text-align: center;
+	}
+	a {
+		text-align: center;
+		margin-top: 2em;
+		text-decoration: none;
+		color: $purple-color;
+		&:hover {
+			color: $light-color;
+		}
+	}
+}
+.input-username,
+.input-password,
+.input-email {
+	display: grid;
+	margin: 10px;
+}
+.input-username label,
+.input-password label,
+.input-email label {
+	font-size: 11pt;
+	text-transform: capitalize;
+}
+.input-username input,
+.input-email input,
+.input-password input {
+	width: 200px;
+	padding-left: 65px;
+}
+.icon {
+	position: absolute;
+	margin-top: 1.7em;
+	border: solid 4px $purple-color;
+	padding: 10px 12px;
+	font-size: 22px;
+	background-color: $dark-color;
+}
+.backBtn {
+	padding: 0em;
+	margin: 15px;
+	a {
+		color: $light-color;
+	}
+	button {
+		padding: 3px 0 0 0;
+		width: 50px;
+		height: 30px;
+		min-width: 50px;
+		min-height: 40px;
+		font-size: 2em;
+	}
+}

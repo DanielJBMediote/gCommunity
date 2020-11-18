@@ -2,7 +2,7 @@ const CommentModel = use('App/Models/Comment');
 
 class CommentRepository {
 
-  async getById(id) {
+  async findOrFail(id) {
     return await CommentModel.findOrFail(id);
   }
 
@@ -22,8 +22,11 @@ class CommentRepository {
     return await CommentModel.query().with('posts', 'user').fetch();
   }
 
-  async listByPostId(postID) {
-    return await CommentModel.query().where('post_id', postID).with('user')
+  async listByPostID(postID) {
+    return await CommentModel.query()
+      .where('post_id', postID)
+      .orderBy('id', 'desc')
+      .with('user')
       .fetch();
   }
 }

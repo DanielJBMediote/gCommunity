@@ -1,5 +1,3 @@
-
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -11,7 +9,7 @@ const CommentService = use('App/Services/CommentService');
  */
 class CommentController {
 
-  constructor (commentService = new CommentService()) {
+  constructor(commentService = new CommentService()) {
     this.commentService = commentService;
   }
 
@@ -19,28 +17,28 @@ class CommentController {
    * This one will list all comments by post_id
    * @param {object} context
    */
-  async index (context) {
-    return await this.commentService.listByPostId(context);
+  async getAllCommentariesByPost(context) {
+    return await this.commentService.listByPostID(context);
   }
 
-  async store (context) {
+  async store(context) {
     return await this.commentService.insertComment(context);
   }
 
-  async update (context) {
+  async update(context) {
     return await this.commentService.updateComment(context);
   }
 
-  async destroy (context) {
+  async destroy(context) {
     return await this.commentService.deleteComment(context);
   }
 
-  async like (context) {
+  async like(context) {
     return await this.commentService.like(context);
   }
 
-  async deslike (context) {
-    return await this.commentService.deslike(context);
+  async dislike(context) {
+    return await this.commentService.dislike(context);
   }
 }
 

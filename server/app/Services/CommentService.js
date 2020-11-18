@@ -7,17 +7,17 @@ class CommentService {
     this.postService = postService;
   }
 
-  async listByPostId({ response, params }) {
-    return response.send(await this.commentRepository.listByPostId(params.postID));
+  async listByPostID({ response, params }) {
+    return response.send(await this.commentRepository.listByPostID(params.id));
   }
 
-  async listAll({ response, params }) {
-    return await this.commentRepository.listAll();
+  async listAll({ response }) {
+    return response.send(await this.commentRepository.listAll());
   }
 
   async deleteComment({ response, params, auth }) {
     try {
-      const comment = await this.commentRepository.getById(params.id);
+      const comment = await this.commentRepository.findOrFail(params.id);
       if (!auth.user.id == comment.user_id) {
         return response.status(401).send({ msg: 'Você não pode deletar este comentário' });
       }
@@ -33,7 +33,7 @@ class CommentService {
   }) {
     const data = request.all();
     try {
-      const comment = await this.commentRepository.getById(params.id);
+      const comment = await this.commentRepository.findOrFail(params.id);
       if (comment.user_id != auth.user.id) {
         return response.status(401).send({ msg: 'Você não pode alterar este comentário' });
       }
@@ -57,14 +57,14 @@ class CommentService {
   }
 
   async like({ response, params }) {
-    const comment = await this.commentRepository.getById(params.commentID);
+    const comment = await this.commentRepository.findOrFail(params.id);
     comment.num_likes += 1;
     await this.commentRepository.update(comment);
     return response.send(comment);
   }
 
   async dislike({ response, params }) {
-    const comment = await this.commentRepository.getById(params.commentID);
+    const comment = await this.commentRepository.findOrFail(params.id);
     comment.num_deslikes += 1;
     await this.commentRepository.update(comment);
     return response.send(comment);

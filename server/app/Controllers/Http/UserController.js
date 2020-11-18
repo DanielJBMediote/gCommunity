@@ -5,8 +5,8 @@ class UserController {
     this.userService = userService;
   }
 
-  async getUserByID(context) {
-    return await this.userService.getUserByID(context);
+  async index(context) {
+    return await this.userService.indexUserByID(context);
   }
 
   async store(context) {

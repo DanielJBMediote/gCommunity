@@ -7,7 +7,7 @@ class UserRepository {
     return await UserModel.findByOrFail('username', username);
   }
 
-  async getById(id) {
+  async getByID(id) {
     return await UserModel.findOrFail(id);
   }
 

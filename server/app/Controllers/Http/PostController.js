@@ -13,11 +13,11 @@ class PostController {
     this.postService = postService;
   }
 
-  async getByTags(context) {
+  async getPostsByTags(context) {
     return this.postService.listByTags(context);
   }
 
-  async getByUserID(context) {
+  async getPostByUserID(context) {
     return this.postService.listByUserID(context);
   }
 

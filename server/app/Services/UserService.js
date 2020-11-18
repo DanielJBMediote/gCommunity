@@ -17,8 +17,8 @@ class UserService {
     };
   }
 
-  async getUserByID({ response, auth }) {
-    const user = await this.userRepository.getById(auth.user.id);
+  async indexUserByID({ response, auth }) {
+    const user = await this.userRepository.getByID(auth.user.id);
     return response.status(200).send(user);
   }
 
@@ -47,7 +47,7 @@ class UserService {
   async updateUser({ request, response, auth }) {
     const data = request.all();
     try {
-      const user = await this.userRepository.getById(auth.user.id);
+      const user = await this.userRepository.getByID(auth.user.id);
       if (!user) {
         return response
           .status(401)
@@ -81,7 +81,7 @@ class UserService {
   }
 
   async deleteUser({ response, auth }) {
-    await this.userRepository.delete(await this.userRepository.getById(auth.user.id));
+    await this.userRepository.delete(await this.userRepository.getByID(auth.user.id));
     return response.status(200).send({
       msg: 'Usuario foi deletado, voce será redirecionado par tela de login',
     });

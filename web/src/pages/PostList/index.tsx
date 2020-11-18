@@ -1,13 +1,20 @@
 import { AxiosError, AxiosResponse } from "axios";
+import moment from "moment";
 import React from "react";
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
+import MomentConfig from "../../config/momentConfig";
 import httpClient from "../../services/api";
 import "./index.scss";
 
 const PostList: React.FC = () => {
   const [initPostList, setInitPostList] = React.useState([]);
   const [updatePostList, setNewPostList] = React.useState({});
+  const now = moment().format("YYYY-MM-DD HH:mm:ss");
+
+  moment.updateLocale("pt", {
+    relativeTime: MomentConfig.relativeTime,
+  });
 
   const hanndleLike = React.useCallback((id) => {
     httpClient
@@ -68,9 +75,6 @@ const PostList: React.FC = () => {
       {initPostList.map((post: any) => {
         return (
           <div className="plx-card gold" key={post.id}>
-            <div className="pxc-bg">
-              {/* (<img src={post.file_url} alt="PostImage" /> */}
-            </div>
             <div className="pxc-avatar">
               <img
                 src={
@@ -83,7 +87,7 @@ const PostList: React.FC = () => {
             </div>
             <div className="pxc-subcard">
               <div className="pxc-title">{post.title}</div>
-              <div className="pxc-sub">Game: {post.game}</div>
+              <div className="pxc-sub">{post.game}</div>
               <div className="pxc-feats">
                 <span>{post.description}</span>
               </div>
@@ -115,7 +119,7 @@ const PostList: React.FC = () => {
               </div>
               <div className="bottom-row">
                 <div className="pxc-info">
-                  <div className="author">Author: {post.user.username}</div>
+                  <div className="author">Autor: {post.user.username}</div>
                 </div>
                 <div className="pxc-more">
                   <a
@@ -126,7 +130,10 @@ const PostList: React.FC = () => {
                     Dataills
                   </a>
                 </div>
-                <p className="lastUpdated">Last Updated: {post.updated_at}</p>
+                <p className="lastUpdated">
+                  Ultima Atualização:
+                  {` ${moment(post.updated_at).subtract(4, "h").from(now)}`}
+                </p>
               </div>
             </div>
           </div>

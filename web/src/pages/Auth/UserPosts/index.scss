@@ -1,0 +1,74 @@
+$purple: #8855dd;
+$light-color: #ebebeb;
+
+.alertMessage {
+  z-index: 1;
+  position: fixed;
+  background-color: rgba($color: #8855dd, $alpha: 1);
+  border-radius: 12px;
+  transform: translate(90%, 50%);
+  padding: 1em;
+  h4 {
+    text-align: center;
+    font-size: 16pt;
+  }
+  div {
+    display: grid;
+    justify-content: center;
+    width: 500px;
+    margin: auto;
+  }
+  button {
+    grid-row: 2;
+    width: 200px;
+    &.red {
+      grid-column: 2;
+      color: red;
+      &:hover {
+        color: red;
+      }
+    }
+    &:hover {
+      background-color: $light-color;
+      color: $purple;
+      text-shadow: none;
+    }
+  }
+}
+
+.blockNone {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.post-modal {
+  .plx-card {
+    margin: auto;
+    .pxc-bg {
+      margin: 1.1em 0em;
+    }
+  }
+  .pxc-more {
+    a {
+      position: absolute;
+      right: 4em;
+    }
+    .btnDeletePost {
+      position: absolute;
+      top: 1.4em;
+      right: 0.7em;
+      color: red;
+      cursor: pointer;
+      border-radius: 12px;
+      outline: none;
+      font-size: 18px;
+      padding: 0.4rem 0.6rem;
+      &:hover {
+        animation: spring 500ms ease-out;
+      }
+    }
+  }
+}

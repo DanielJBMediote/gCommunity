@@ -26,7 +26,8 @@ Route.group(() => {
   Route.get('/list-all-games', 'GameController.index');
   Route.get('/list-all-posts', 'PostController.index');
   Route.get('/list-posts-by-tags', 'PostController.getPostsByTags');
-
+  Route.get('comment/:id/get-all-by-post', 'CommentController.getAllCommentariesByPost');
+  Route.get('/list-all-commentaries-by-post/:id', 'CommentController.getAllCommentariesByPost');
   Route.resource('/file', 'FileController').apiOnly();
 });
 
@@ -41,6 +42,8 @@ Route.group(() => {})
  * Rotoas para Usuarios
  */
 Route.group(() => {
+  Route.get('/list-all-user-posts', 'PostController.getPostByUserID');
+
   Route.resource('', 'UserController').apiOnly();
   // Route.get('/', 'UserController.getUserByID');
   // Route.post('/password-reset', 'ForgotPasswordController.store');
@@ -55,12 +58,11 @@ Route.group(() => {
  * Rotas para Postagens
  */
 Route.group(() => {
-  Route.resource('', 'PostController').apiOnly();
 
-  Route.get('/list-posts-by-user', 'PostController.getByUserID');
   Route.put('/:id/like', 'PostController.like');
   Route.put('/:id/dislike', 'PostController.dislike');
 
+  Route.resource('', 'PostController').apiOnly();
 })
   .middleware(['auth'])
   .prefix('/post');
@@ -69,10 +71,12 @@ Route.group(() => {
  * Rotas para Comentários
  */
 Route.group(() => {
-  Route.resource('', 'CommentController').apiOnly();
 
+  Route.post('/:postID', 'CommentController.store');
+  Route.delete('/:id', 'CommentController.destroy');
+  Route.put('/:id', 'CommentController.update');
   Route.put('/:id/like', 'CommentController.like');
-  Route.put('/:id/deslike', 'CommentController.deslike');
+  Route.put('/:id/deslike', 'CommentController.dislike');
 })
   .middleware(['auth'])
-  .prefix('/comment/:postID');
+  .prefix('/comment');

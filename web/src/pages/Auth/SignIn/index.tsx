@@ -68,7 +68,7 @@ const Login = () => {
             />
           </div>
           <div className="input-password">
-            <label htmlFor="password">password</label>
+            <label htmlFor="password">senha</label>
             <RiLockPasswordFill className="icon" />
             <Input
               name="password"
@@ -86,10 +86,10 @@ const Login = () => {
               name="remember"
               onChange={handdleInputCheckbox}
             />
-            <span className="remmember">remember email</span>
+            <span className="remmember">lembrar email</span>
           </div>
           <Button handdleClick={onSubmitForm} type="button" label="Login" />
-          <a href="/cadastrar">Do not have an Account? Sign Up Now!</a>
+          <a href="/cadastrar">Ainda não tem conta? Cadastr-se já!</a>
         </form>
       </div>
     </>

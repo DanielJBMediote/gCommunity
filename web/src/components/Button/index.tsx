@@ -1,17 +1,18 @@
-import * as React from 'react';
-import './index.scss';
+import * as React from "react";
+import "./index.scss";
 
 interface ButtonProps {
-  label?: string
-  type?: 'submit' | 'reset' | 'button';
-  handdleClick?: (event: React.MouseEvent) => void
+  className?: string;
+  label?: string;
+  type?: "submit" | "reset" | "button";
+  handdleClick?: (event: React.MouseEvent) => void;
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
   return (
     <>
       <button
-        className="mainBtn"
+        className={`mainBtn ${props.className}`}
         type={props.type}
         onClick={props.handdleClick}
       >
@@ -19,6 +20,6 @@ const Button: React.FC<ButtonProps> = (props) => {
       </button>
     </>
   );
-}
+};
 
 export default Button;

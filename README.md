@@ -37,6 +37,12 @@ git clone https://github.com/DanielJBMediote/projeto-tcc.git
 
 > Se já tiver instalado o banco de dados PostgreSQL na sua máquina. Basta rodar o banco de dados e depois iniciar o servidor e a web. Primeiramente, deve alterar a variavel do arquivo ./server/.env para `DB_HOST=database` (caso esteja rodando na maquina local `DB_HOST=localhost`)
 
+Execute o comando para atualizar as dependências do projeto
+
+```bash
+npm install
+```
+
 Dentro da pasta *./server* execute o comando, para criar as tabelas no banco de dados e iniciar o servidor
 
 ```bash

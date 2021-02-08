@@ -1,5 +1,5 @@
 
-# Forúm Web para Jogadores (GCommunity)
+# Forúm Web para Jogadores (gCommunity)
 
 ## Sobre
 
